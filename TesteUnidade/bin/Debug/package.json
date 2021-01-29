@@ -1,0 +1,50 @@
+{
+  "name": "debug",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "npm run test:chrome && npm run test:firefox",
+    "test:chrome": "protractor tests/configurations/chrome.conf.js",
+    "test:firefox": "protractor tests/configurations/firefox.conf.js",
+    "test:multi": "protractor tests/configurations/multiCapabilities.conf.js",
+    "test:chrome:parallel": "protractor tests/configurations/chromeShard.conf.js"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "@types/q": "^1.5.4",
+    "@types/selenium-webdriver": "^4.0.11",
+    "adm-zip": "^0.5.2",
+    "agent-base": "^6.0.2",
+    "ajv": "^7.0.3",
+    "ansi-regex": "^5.0.0",
+    "ansi-styles": "^5.1.0",
+    "array-union": "^2.1.0",
+    "array-uniq": "^2.1.0",
+    "arrify": "^2.0.1",
+    "asn1": "^0.2.4",
+    "assert-plus": "^1.0.0",
+    "asynckit": "^0.4.0",
+    "aws-sign2": "^0.7.0",
+    "aws4": "^1.11.0",
+    "balanced-match": "^1.0.0",
+    "bcrypt-pbkdf": "^1.0.2",
+    "blocking-proxy": "^1.0.1",
+    "brace-expansion": "^2.0.0",
+    "browserstack": "^1.6.1",
+    "caseless": "^0.12.0",
+    "chalk": "^4.1.0",
+    "combined-stream": "^1.0.8",
+    "concat-map": "0.0.1",
+    "core-util-is": "^1.0.2",
+    "dashdash": "^2.0.0",
+    "del": "^6.0.0",
+    "delayed-stream": "^1.0.0",
+    "protractor": "^7.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
