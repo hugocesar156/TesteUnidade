@@ -3,6 +3,9 @@ using OpenQA.Selenium.Remote;
 using System.Threading;
 using Login;
 using TesteUnidade.PageObject.Navbar;
+using System;
+using OpenQA.Selenium;
+using TesteUnidade;
 
 namespace Navbar
 {
@@ -28,25 +31,49 @@ namespace Navbar
         [Test]
         public void ItensNavbar()
         {
-            login.SetUp();
-            login.Acesso();
+            try
+            {
+                var watch = System.Diagnostics.Stopwatch.StartNew();
 
-            driver = login.driver;
-            Thread.Sleep(5000);
+                login.SetUp();
+                login.Acesso();
 
-            var pagina = new NavbarPage(driver);
-            Assert.IsTrue(pagina.Perfil.Displayed);
-            Assert.IsTrue(pagina.Atualizacao.Displayed);
-            Assert.IsTrue(pagina.Inicio.Displayed);
-            Assert.IsTrue(pagina.Chip.Displayed);
-            Assert.IsTrue(pagina.Cliente.Displayed);
-            Assert.IsTrue(pagina.Dispositivo.Displayed);
-            Assert.IsTrue(pagina.Empresa.Displayed);
-            Assert.IsTrue(pagina.Rastreador.Displayed);
-            Assert.IsTrue(pagina.Usuario.Displayed);
-            Assert.IsTrue(pagina.Veiculo.Displayed);
-            Assert.IsTrue(pagina.Notificacao.Displayed);
-            Assert.IsTrue(pagina.Sessao.Displayed);
+                driver = login.driver;
+                Thread.Sleep(5000);
+
+                var pagina = new NavbarPage(driver);
+                Assert.IsTrue(pagina.Perfil.Displayed);
+                Assert.IsTrue(pagina.Atualizacao.Displayed);
+                Assert.IsTrue(pagina.Inicio.Displayed);
+                Assert.IsTrue(pagina.Chip.Displayed);
+                Assert.IsTrue(pagina.Cliente.Displayed);
+                Assert.IsTrue(pagina.Dispositivo.Displayed);
+                Assert.IsTrue(pagina.Empresa.Displayed);
+                Assert.IsTrue(pagina.Rastreador.Displayed);
+                Assert.IsTrue(pagina.Usuario.Displayed);
+                Assert.IsTrue(pagina.Veiculo.Displayed);
+                Assert.IsTrue(pagina.Notificacao.Displayed);
+                Assert.IsFalse(pagina.Sessao.Displayed, "O campo {0} não deve ser exibido", "'sessão'"); 
+
+                watch.Stop();
+                Global.TempoExeceucao = watch.ElapsedMilliseconds;
+                Global.Resultado = true;
+            }
+            catch (NoSuchElementException erro)
+            {
+                Global.MensagemErro = erro.Message;
+                Global.Resultado = false;
+            }
+            catch (AssertionException erro)
+            {
+                Global.MensagemErro = erro.Message;
+                Global.Resultado = false;
+            }
+            catch (Exception erro)
+            {
+                Global.MensagemErro = erro.Message;
+                Global.Resultado = false;
+            }
         }
     }
 }

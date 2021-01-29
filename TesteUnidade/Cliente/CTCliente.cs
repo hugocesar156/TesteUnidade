@@ -1,8 +1,10 @@
 ﻿using Login;
 using NUnit.Framework;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using TesteUnidade.PageObject.Cliente;
@@ -177,6 +179,32 @@ namespace Cliente
 
             var pagina = new ListaClientePage(driver);
             pagina.RemoverCliente(driver);
+        }
+
+        [Test]
+        public void Listar()
+        {
+            try
+            {
+                login.SetUp();
+                login.Acesso();
+
+                driver = login.driver;
+                Thread.Sleep(5000);
+
+                driver.FindElementByLinkText("Cliente").Click();
+                driver.FindElementByLinkText("Listar").Click();
+
+                var watch = Stopwatch.StartNew();
+            }
+            catch (NoSuchElementException erro)
+            {
+                Console.WriteLine(erro);
+            }
+            catch (AssertionException erro)
+            {
+                Console.WriteLine(erro);
+            }
         }
     }
 }

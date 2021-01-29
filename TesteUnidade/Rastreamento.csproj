@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Cliente\CTCliente.cs" />
     <Compile Include="Exports\CT000001_RastreamentoGeral.cs" />
+    <Compile Include="Global.cs" />
     <Compile Include="Login\CTLogin.cs" />
     <Compile Include="Navbar\CTNavbar.cs" />
     <Compile Include="PageObject\Cliente\CadastroCliente.cs" />

@@ -239,12 +239,10 @@ namespace Exports
             driver.FindElement(By.Name("tabela-rastreador_length")).Click();
             driver.FindElement(By.CssSelector(".buttons-excel > span")).Click();
             Vars["WindowHandles"] = driver.WindowHandles;
-            //print da página causa travamento
-            /*driver.FindElement(By.CssSelector(".buttons-print")).Click();
-            Vars["win2215"] = WaitForWindow(2000);
-            Vars["root"] = driver.CurrentWindowHandle;
-            driver.SwitchTo().Window(Vars["win2215"].ToString());
-            driver.SwitchTo().Window(Vars["root"].ToString());*/
+            driver.FindElement(By.CssSelector(".buttons-print")).Click();
+            driver.SwitchTo().Window(driver.WindowHandles[2]);
+            driver.Close();
+            driver.SwitchTo().Window(driver.WindowHandles[0]);
             driver.FindElement(By.CssSelector(".buttons-pdf > span")).Click();
             driver.FindElement(By.Id("dropdown-usuario")).Click();
             driver.FindElement(By.LinkText("Listar")).Click();
