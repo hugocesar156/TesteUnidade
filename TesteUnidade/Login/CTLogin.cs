@@ -16,10 +16,10 @@ namespace Login
         [SetUp]
         public void SetUp()
         {
-            /* Headless */
-            //driver = new RemoteWebDriver(new Uri("http://192.168.99.100:4444/wd/hub"), new ChromeOptions());
-           
-            driver = new ChromeDriver();
+            var options = new ChromeOptions();
+            options.AddArgument("--headless");
+
+            driver = new ChromeDriver(/*options*/); 
         }
 
         [TearDown]

@@ -6,6 +6,7 @@ using TesteUnidade.PageObject.Navbar;
 using System;
 using OpenQA.Selenium;
 using TesteUnidade;
+using OpenQA.Selenium.Support.UI;
 
 namespace Navbar
 {
@@ -24,7 +25,6 @@ namespace Navbar
         [TearDown]
         protected void TearDown()
         {
-            Thread.Sleep(3000);
             driver.Quit();
         }
 
@@ -39,9 +39,11 @@ namespace Navbar
                 login.Acesso();
 
                 driver = login.driver;
-                Thread.Sleep(5000);
 
                 var pagina = new NavbarPage(driver);
+                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+                wait.Until(driver => pagina.Perfil.Displayed);
+
                 Assert.IsTrue(pagina.Perfil.Displayed);
                 Assert.IsTrue(pagina.Atualizacao.Displayed);
                 Assert.IsTrue(pagina.Inicio.Displayed);
@@ -53,26 +55,19 @@ namespace Navbar
                 Assert.IsTrue(pagina.Usuario.Displayed);
                 Assert.IsTrue(pagina.Veiculo.Displayed);
                 Assert.IsTrue(pagina.Notificacao.Displayed);
-                Assert.IsFalse(pagina.Sessao.Displayed, "O campo {0} não deve ser exibido", "'sessão'"); 
+                Assert.IsTrue(pagina.Sessao.Displayed); 
 
                 watch.Stop();
-                Global.TempoExeceucao = watch.ElapsedMilliseconds;
-                Global.Resultado = true;
             }
             catch (NoSuchElementException erro)
             {
-                Global.MensagemErro = erro.Message;
-                Global.Resultado = false;
+                Console.WriteLine(erro);
+                throw erro;
             }
             catch (AssertionException erro)
             {
-                Global.MensagemErro = erro.Message;
-                Global.Resultado = false;
-            }
-            catch (Exception erro)
-            {
-                Global.MensagemErro = erro.Message;
-                Global.Resultado = false;
+                Console.WriteLine(erro);
+                throw erro;
             }
         }
     }

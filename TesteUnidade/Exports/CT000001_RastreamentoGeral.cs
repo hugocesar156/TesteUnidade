@@ -93,9 +93,7 @@ namespace Exports
             driver.SwitchTo().Window(Vars["root"].ToString());
             driver.FindElement(By.CssSelector(".link_mapa:nth-child(3) > .titulo-menu")).Click();
             driver.FindElement(By.Id("select2-device-container")).Click();
-            driver.FindElement(By.CssSelector(".select2-search__field")).SendKeys(Keys.Down);
-            driver.FindElement(By.CssSelector(".select2-search__field")).SendKeys("bruno");
-            driver.FindElement(By.CssSelector(".select2-search__field")).SendKeys(Keys.Enter);
+            driver.FindElement(By.CssSelector(".select2-search__field")).SendKeys(Keys.Down + "bruno" + Keys.Enter);
             driver.FindElement(By.Id("percursos")).Click();
             driver.FindElement(By.Id("percursos")).SendKeys(Keys.Down);
             driver.FindElement(By.Id("percursos")).Click();
@@ -158,24 +156,15 @@ namespace Exports
                 wait.Until(driver => driver.FindElements(By.LinkText("Início")).Count > 0);
             }
 
-            var elements = driver.FindElements(By.LinkText("Início"));
-            Assert.True(elements.Count > 0);
-            elements = driver.FindElements(By.LinkText("Cliente"));
-            Assert.True(elements.Count > 0);
-            elements = driver.FindElements(By.Id("dropdown-empresa"));
-            Assert.True(elements.Count > 0);
-            elements = driver.FindElements(By.Id("dropdown-rastreador"));
-            Assert.True(elements.Count > 0);
-            elements = driver.FindElements(By.Id("dropdown-usuario"));
-            Assert.True(elements.Count > 0);
-            elements = driver.FindElements(By.Id("dropdown-veiculo"));
-            Assert.True(elements.Count > 0);
-            elements = driver.FindElements(By.CssSelector(".fa-user-circle > path"));
-            Assert.True(elements.Count > 0);
-            elements = driver.FindElements(By.CssSelector(".badge-info"));
-            Assert.True(elements.Count > 0);
-            elements = driver.FindElements(By.CssSelector(".badge-danger"));
-            Assert.True(elements.Count > 0);
+            Assert.True(driver.FindElements(By.LinkText("Início")).Count > 0);
+            Assert.True(driver.FindElements(By.LinkText("Cliente")).Count > 0);
+            Assert.True(driver.FindElements(By.Id("dropdown-empresa")).Count > 0);
+            Assert.True(driver.FindElements(By.Id("dropdown-rastreador")).Count > 0);
+            Assert.True(driver.FindElements(By.Id("dropdown-usuario")).Count > 0);
+            Assert.True(driver.FindElements(By.Id("dropdown-veiculo")).Count > 0);
+            Assert.True(driver.FindElements(By.CssSelector(".fa-user-circle > path")).Count > 0);
+            Assert.True(driver.FindElements(By.CssSelector(".badge-info")).Count > 0);
+            Assert.True(driver.FindElements(By.CssSelector(".badge-danger")).Count > 0);
         }
 
         [Test]
@@ -208,8 +197,7 @@ namespace Exports
 
             driver.FindElement(By.Name("tabela-cliente_length")).Click();
             driver.FindElement(By.CssSelector("#tabela-cliente_filter .form-control")).Click();
-            driver.FindElement(By.CssSelector("#tabela-cliente_filter .form-control")).SendKeys("pedro");
-            driver.FindElement(By.CssSelector("#tabela-cliente_filter .form-control")).SendKeys(Keys.Enter);
+            driver.FindElement(By.CssSelector("#tabela-cliente_filter .form-control")).SendKeys("pedro" + Keys.Enter);
             driver.FindElement(By.Id("dropdown-cliente")).Click();
             driver.FindElement(By.LinkText("Cadastrar")).Click();
             Thread.Sleep(2000);

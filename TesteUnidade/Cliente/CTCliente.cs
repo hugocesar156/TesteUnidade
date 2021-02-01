@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,6 +18,19 @@ namespace Cliente
         public RemoteWebDriver driver;
         private CTLogin login;
 
+        private Stopwatch watch;
+
+        public void IniciaTimer()
+        {
+            watch = Stopwatch.StartNew();
+        }
+
+        public void Wait(bool condicao)
+        {
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(driver => condicao);
+        }
+
         [SetUp]
         public void SetUp()
         {
@@ -26,7 +40,6 @@ namespace Cliente
         [TearDown]
         protected void TearDown()
         {
-            Thread.Sleep(3000);
             driver.Quit();
         }
 
@@ -37,7 +50,8 @@ namespace Cliente
             login.Acesso();
 
             driver = login.driver;
-            Thread.Sleep(5000);
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(driver => driver.FindElement(By.LinkText("Cliente")).Displayed);
 
             driver.FindElementByLinkText("Cliente").Click();
             driver.FindElementByLinkText("Listar").Click();
@@ -60,16 +74,15 @@ namespace Cliente
             login.Acesso();
 
             driver = login.driver;
-            Thread.Sleep(5000);
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(driver => driver.FindElement(By.LinkText("Cliente")).Displayed);
 
             driver.FindElementByLinkText("Cliente").Click();
             driver.FindElementByLinkText("Listar").Click();
 
             var pagina = new ListaClientePage(driver);
             pagina.ExibirModal();
-            Thread.Sleep(2000);
-
-            Assert.IsTrue(driver.FindElementById("modal-detalhamento").Displayed);
+            wait.Until(driver => driver.FindElement(By.Id("modal-detalhamento")).Displayed);
         }
 
         [Test]
@@ -79,7 +92,8 @@ namespace Cliente
             login.Acesso();
 
             driver = login.driver;
-            Thread.Sleep(5000);
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(driver => driver.FindElement(By.LinkText("Cliente")).Displayed);
 
             driver.FindElementByLinkText("Cliente").Click();
             driver.FindElementByLinkText("Listar").Click();
@@ -95,7 +109,8 @@ namespace Cliente
             login.Acesso();
 
             driver = login.driver;
-            Thread.Sleep(5000);
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(driver => driver.FindElement(By.LinkText("Cliente")).Displayed);
 
             driver.FindElementByLinkText("Cliente").Click();
             driver.FindElementByLinkText("Listar").Click();
@@ -111,7 +126,8 @@ namespace Cliente
             login.Acesso();
 
             driver = login.driver;
-            Thread.Sleep(5000);
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(driver => driver.FindElement(By.LinkText("Cliente")).Displayed);
 
             driver.FindElementByLinkText("Cliente").Click();
             driver.FindElementByLinkText("Listar").Click();
@@ -127,23 +143,17 @@ namespace Cliente
             login.Acesso();
 
             driver = login.driver;
-            Thread.Sleep(5000);
-            
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(driver => driver.FindElement(By.LinkText("Cliente")).Displayed);
+
             driver.FindElementByLinkText("Cliente").Click();
             driver.FindElementByLinkText("Listar").Click();
 
             var pagina = new ListaClientePage(driver);
             pagina.AlterarRegistrosPagina("5");
-            Thread.Sleep(500);
-
             pagina.AlterarRegistrosPagina("7");
-            Thread.Sleep(500);
-
             pagina.AlterarRegistrosPagina("1");
-            Thread.Sleep(500);
-
             pagina.AlterarRegistrosPagina("2");
-            Thread.Sleep(500);
         }
 
         [Test]
@@ -153,7 +163,8 @@ namespace Cliente
             login.Acesso();
 
             driver = login.driver;
-            Thread.Sleep(5000);
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(driver => driver.FindElement(By.LinkText("Cliente")).Displayed);
 
             driver.FindElementByLinkText("Cliente").Click();
             driver.FindElementByLinkText("Listar").Click();
@@ -172,7 +183,8 @@ namespace Cliente
             login.Acesso();
 
             driver = login.driver;
-            Thread.Sleep(5000);
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(driver => driver.FindElement(By.LinkText("Cliente")).Displayed);
 
             driver.FindElementByLinkText("Cliente").Click();
             driver.FindElementByLinkText("Listar").Click();
@@ -188,22 +200,23 @@ namespace Cliente
             {
                 login.SetUp();
                 login.Acesso();
-
                 driver = login.driver;
-                Thread.Sleep(5000);
+
+                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+                wait.Until(driver => driver.FindElement(By.LinkText("Cliente")).Displayed);
 
                 driver.FindElementByLinkText("Cliente").Click();
                 driver.FindElementByLinkText("Listar").Click();
-
-                var watch = Stopwatch.StartNew();
             }
             catch (NoSuchElementException erro)
             {
                 Console.WriteLine(erro);
+                throw erro;
             }
             catch (AssertionException erro)
             {
                 Console.WriteLine(erro);
+                throw erro;
             }
         }
     }

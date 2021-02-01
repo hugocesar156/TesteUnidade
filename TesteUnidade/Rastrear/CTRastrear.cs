@@ -2,6 +2,8 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
+using OpenQA.Selenium.Support.UI;
+using System;
 using System.Threading;
 using TesteUnidade.PageObject.Rastrear;
 
@@ -22,7 +24,6 @@ namespace Rastrear
         [TearDown]
         protected void TearDown()
         {
-            Thread.Sleep(3000);
             driver.Quit();
         }
 
@@ -33,23 +34,25 @@ namespace Rastrear
             login.Acesso();
 
             driver = login.driver;
-            Thread.Sleep(5000);
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(driver => driver.FindElements(By.LinkText("Veículo")).Count > 0);
 
             driver.FindElementByLinkText("Veículo").Click();
             driver.FindElementByLinkText("Rastrear").Click();
 
             var pagina = new MapaPage(driver);
-            Thread.Sleep(500);
+            wait.Until(driver => pagina.BuscarVeiculo.Enabled);
             pagina.BuscarVeiculo.Click();
-            Thread.Sleep(1000);
-            pagina.AreaEmpresa.Click();
-            pagina.CampoEmpresa.SendKeys("jn" + Keys.Enter);
-            Thread.Sleep(1000);
-            pagina.AreaVeiculo.Click();
-            pagina.CampoVeiculo.SendKeys("br" + Keys.Enter);
-            Thread.Sleep(2000);
+            wait.Until(driver => pagina.Empresa.Enabled);
+            pagina.Empresa.Click();
+            pagina.Empresa.FindElement(By.XPath("//input[@type='search']")).SendKeys("jn" + Keys.Enter);
+            wait.Until(driver => pagina.Veiculo.Enabled);
+            pagina.Veiculo.Click();
+            pagina.Veiculo.FindElement(By.XPath("//input[@type='search']")).SendKeys("br" + Keys.Enter);
+            wait.Until(driver => pagina.ConfirmarLocalizacao.Enabled);
             pagina.ConfirmarLocalizacao.Click();
-            Thread.Sleep(5000);
+            wait.Until(driver => pagina.PopUp.Enabled);
+            Thread.Sleep(500);
             pagina.PopUp.Click();
         }
 
@@ -60,25 +63,26 @@ namespace Rastrear
             login.Acesso();
 
             driver = login.driver;
-            Thread.Sleep(5000);
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(driver => driver.FindElements(By.LinkText("Veículo")).Count > 0);
 
             driver.FindElementByLinkText("Veículo").Click();
             driver.FindElementByLinkText("Rastrear").Click();
 
             var pagina = new MapaPage(driver);
-            Thread.Sleep(500);
+            wait.Until(driver => pagina.BuscarTrajeto.Enabled);
             pagina.BuscarTrajeto.Click();
-            Thread.Sleep(1000);
-            pagina.AreaEmpresa.Click();
-            pagina.CampoEmpresa.SendKeys("jn" + Keys.Enter);
-            Thread.Sleep(1000);
-            pagina.AreaVeiculo.Click();
-            pagina.CampoVeiculo.SendKeys("br" + Keys.Enter);
-            Thread.Sleep(4000);
-            pagina.AreaTrajeto.Click();
-            pagina.CampoTrajeto.SendKeys(Keys.Down + Keys.Enter);
-            pagina.ConfirmarTrajeto.Click();
-            Thread.Sleep(10000);
+            wait.Until(driver => pagina.Empresa.Enabled);
+            pagina.Empresa.Click();
+            pagina.Empresa.FindElement(By.XPath("//input[@type='search']")).SendKeys("jn" + Keys.Enter);
+            wait.Until(driver => pagina.Veiculo.Enabled);
+            pagina.Veiculo.Click();
+            pagina.Veiculo.FindElement(By.XPath("//input[@type='search']")).SendKeys("br" + Keys.Enter);
+            wait.Until(driver => pagina.Trajeto.Enabled);
+            pagina.Trajeto.Click();
+            pagina.Trajeto.FindElement(By.XPath("//input[@type='search']")).SendKeys(Keys.Down + Keys.Enter);
+            wait.Until(driver => driver.FindElement(By.Id("submit-trajeto")).Enabled);
+            pagina.ConfirmarTrajeto.Click();           
         }
     }
 }
