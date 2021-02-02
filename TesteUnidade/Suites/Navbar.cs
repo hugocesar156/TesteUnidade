@@ -1,25 +1,24 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium.Remote;
 using System.Threading;
-using Login;
 using TesteUnidade.PageObject.Navbar;
 using System;
 using OpenQA.Selenium;
 using TesteUnidade;
 using OpenQA.Selenium.Support.UI;
 
-namespace Navbar
+namespace Rastreamento.Testes
 {
     [TestFixture]
-    public class CTNavbar
+    public class Navbar
     {
         public RemoteWebDriver driver;
-        private CTLogin login;
+        private Login login;
 
         [SetUp]
         public void SetUp()
         {
-            login = new CTLogin();
+            login = new Login();
         }
 
         [TearDown]
@@ -40,7 +39,7 @@ namespace Navbar
 
                 driver = login.driver;
 
-                var pagina = new NavbarPage(driver);
+                var pagina = new TesteUnidade.PageObject.Navbar.Navbar(driver);
                 var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
                 wait.Until(driver => pagina.Perfil.Displayed);
 

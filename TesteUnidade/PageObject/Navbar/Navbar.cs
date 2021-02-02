@@ -3,11 +3,11 @@ using OpenQA.Selenium.Remote;
 
 namespace TesteUnidade.PageObject.Navbar
 {
-    class NavbarPage
+    class Navbar
     {
         private readonly RemoteWebDriver _driver;
 
-        public NavbarPage(RemoteWebDriver driver)
+        public Navbar(RemoteWebDriver driver)
         {
             _driver = driver;
         }

@@ -3,11 +3,11 @@ using OpenQA.Selenium.Remote;
 
 namespace TesteUnidade.PageObject.Login
 {
-    class LoginPage
+    class Acesso
     {
         private readonly RemoteWebDriver _driver;
 
-        public LoginPage(RemoteWebDriver driver)
+        public Acesso(RemoteWebDriver driver)
         {
             _driver = driver;
         }

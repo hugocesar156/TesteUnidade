@@ -1,40 +1,25 @@
-﻿using Login;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading;
 using TesteUnidade.PageObject.Cliente;
 
-namespace Cliente
+namespace Rastreamento.Testes
 {
     [TestFixture]
-    class CTCliente
+    class Cliente
     {
         public RemoteWebDriver driver;
-        private CTLogin login;
+        private Login login;
 
         private Stopwatch watch;
-
-        public void IniciaTimer()
-        {
-            watch = Stopwatch.StartNew();
-        }
-
-        public void Wait(bool condicao)
-        {
-            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            wait.Until(driver => condicao);
-        }
 
         [SetUp]
         public void SetUp()
         {
-            login = new CTLogin();
+            login = new Login();
         }
 
         [TearDown]
@@ -51,13 +36,13 @@ namespace Cliente
 
             driver = login.driver;
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            wait.Until(driver => driver.FindElement(By.LinkText("Cliente")).Displayed);
+            wait.Until(driver => driver.FindElement(By.LinkText("Cliente")));
 
             driver.FindElementByLinkText("Cliente").Click();
             driver.FindElementByLinkText("Listar").Click();
 
-            new ListaClientePage(driver).CadastrarCliente();
-            var pagina = new CadastroCliente(driver);
+            new Lista(driver).CadastrarCliente();
+            var pagina = new Cadastro(driver);
 
             driver.SwitchTo().Window(driver.WindowHandles[1]);
             pagina.Nome.SendKeys("Nome de cliente");
@@ -80,7 +65,7 @@ namespace Cliente
             driver.FindElementByLinkText("Cliente").Click();
             driver.FindElementByLinkText("Listar").Click();
 
-            var pagina = new ListaClientePage(driver);
+            var pagina = new Lista(driver);
             pagina.ExibirModal();
             wait.Until(driver => driver.FindElement(By.Id("modal-detalhamento")).Displayed);
         }
@@ -98,7 +83,7 @@ namespace Cliente
             driver.FindElementByLinkText("Cliente").Click();
             driver.FindElementByLinkText("Listar").Click();
 
-            var pagina = new ListaClientePage(driver);
+            var pagina = new Lista(driver);
             pagina.EditarCliente();
         }
 
@@ -115,7 +100,7 @@ namespace Cliente
             driver.FindElementByLinkText("Cliente").Click();
             driver.FindElementByLinkText("Listar").Click();
 
-            var pagina = new ListaClientePage(driver);
+            var pagina = new Lista(driver);
             pagina.ObservacaoCliente();
         }
 
@@ -132,7 +117,7 @@ namespace Cliente
             driver.FindElementByLinkText("Cliente").Click();
             driver.FindElementByLinkText("Listar").Click();
 
-            var pagina = new ListaClientePage(driver);
+            var pagina = new Lista(driver);
             pagina.BuscarRegistro("Admin");
         }
 
@@ -149,7 +134,7 @@ namespace Cliente
             driver.FindElementByLinkText("Cliente").Click();
             driver.FindElementByLinkText("Listar").Click();
 
-            var pagina = new ListaClientePage(driver);
+            var pagina = new Lista(driver);
             pagina.AlterarRegistrosPagina("5");
             pagina.AlterarRegistrosPagina("7");
             pagina.AlterarRegistrosPagina("1");
@@ -169,7 +154,7 @@ namespace Cliente
             driver.FindElementByLinkText("Cliente").Click();
             driver.FindElementByLinkText("Listar").Click();
 
-            var pagina = new ListaClientePage(driver);
+            var pagina = new Lista(driver);
             pagina.Copiar.Click();
             pagina.Exportar.Click();
             pagina.Imprimir.Click();
@@ -189,7 +174,7 @@ namespace Cliente
             driver.FindElementByLinkText("Cliente").Click();
             driver.FindElementByLinkText("Listar").Click();
 
-            var pagina = new ListaClientePage(driver);
+            var pagina = new Lista(driver);
             pagina.RemoverCliente(driver);
         }
 
@@ -207,13 +192,9 @@ namespace Cliente
 
                 driver.FindElementByLinkText("Cliente").Click();
                 driver.FindElementByLinkText("Listar").Click();
+                wait.Until(driver => driver.FindElement(By.CssSelector(".table-hover")));
             }
             catch (NoSuchElementException erro)
-            {
-                Console.WriteLine(erro);
-                throw erro;
-            }
-            catch (AssertionException erro)
             {
                 Console.WriteLine(erro);
                 throw erro;

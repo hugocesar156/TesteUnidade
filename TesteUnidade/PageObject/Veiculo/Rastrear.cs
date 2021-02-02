@@ -3,11 +3,11 @@ using OpenQA.Selenium.Remote;
 
 namespace TesteUnidade.PageObject.Rastrear
 {
-    class MapaPage
+    class Rastrear
     {
         private readonly RemoteWebDriver _driver;
 
-        public MapaPage(RemoteWebDriver driver)
+        public Rastrear(RemoteWebDriver driver)
         {
             _driver = driver;
         }

@@ -8,10 +8,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace Exports
+namespace Rastreamento.Testes
 {
     [TestFixture]
-    public class DefaultSuiteTest
+    public class Geral
     {
         private IWebDriver driver;
         public IDictionary<string, object> Vars { get; private set; }
@@ -19,8 +19,13 @@ namespace Exports
         [SetUp]
         public void SetUp()
         {
-            driver = new ChromeDriver();
+           // driver = new ChromeDriver();
             Vars = new Dictionary<string, object>();
+
+            var options = new ChromeOptions();
+            options.AddArgument("--headless");
+
+            driver = new ChromeDriver(options);
         }
 
         [TearDown]
@@ -50,7 +55,7 @@ namespace Exports
         }
 
         [Test]
-        public void Geral()
+        public void Gerais()
         {
             driver.Navigate().GoToUrl("https://rastreamento.jns.net.br/Login/Login?ReturnUrl=%2F");
             driver.Manage().Window.Size = new System.Drawing.Size(1616, 855);
@@ -153,18 +158,18 @@ namespace Exports
             driver.FindElement(By.Id("submit-acesso")).Click();
             {
                 var wait = new WebDriverWait(driver, System.TimeSpan.FromSeconds(50));
-                wait.Until(driver => driver.FindElements(By.LinkText("Início")).Count > 0);
+                wait.Until(driver => driver.FindElement(By.LinkText("Início")).Displayed);
             }
 
-            Assert.True(driver.FindElements(By.LinkText("Início")).Count > 0);
-            Assert.True(driver.FindElements(By.LinkText("Cliente")).Count > 0);
-            Assert.True(driver.FindElements(By.Id("dropdown-empresa")).Count > 0);
-            Assert.True(driver.FindElements(By.Id("dropdown-rastreador")).Count > 0);
-            Assert.True(driver.FindElements(By.Id("dropdown-usuario")).Count > 0);
-            Assert.True(driver.FindElements(By.Id("dropdown-veiculo")).Count > 0);
-            Assert.True(driver.FindElements(By.CssSelector(".fa-user-circle > path")).Count > 0);
-            Assert.True(driver.FindElements(By.CssSelector(".badge-info")).Count > 0);
-            Assert.True(driver.FindElements(By.CssSelector(".badge-danger")).Count > 0);
+            Assert.True(driver.FindElement(By.LinkText("Início")).Displayed);
+            Assert.True(driver.FindElement(By.LinkText("Cliente")).Displayed);
+            Assert.True(driver.FindElement(By.Id("dropdown-empresa")).Displayed);
+            Assert.True(driver.FindElement(By.Id("dropdown-rastreador")).Displayed);
+            Assert.True(driver.FindElement(By.Id("dropdown-usuario")).Displayed);
+            Assert.True(driver.FindElement(By.Id("dropdown-veiculo")).Displayed);
+            Assert.True(driver.FindElement(By.CssSelector(".fa-user-circle > path")).Displayed);
+            Assert.True(driver.FindElement(By.CssSelector(".badge-info")).Displayed);
+            Assert.True(driver.FindElement(By.CssSelector(".badge-danger")).Displayed);
         }
 
         [Test]

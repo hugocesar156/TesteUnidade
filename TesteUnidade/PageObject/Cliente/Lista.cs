@@ -3,11 +3,11 @@ using OpenQA.Selenium.Remote;
 
 namespace TesteUnidade.PageObject.Cliente
 {
-    class ListaClientePage
+    class Lista
     {
         private readonly RemoteWebDriver _driver;
 
-        public ListaClientePage(RemoteWebDriver driver)
+        public Lista(RemoteWebDriver driver)
         {
             _driver = driver;
         }
