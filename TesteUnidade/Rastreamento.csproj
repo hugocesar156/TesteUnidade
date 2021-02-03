@@ -72,6 +72,8 @@
     <Compile Include="PageObject\Navbar\Navbar.cs" />
     <Compile Include="PageObject\Veiculo\Rastrear.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Suites\Rastreador.cs" />
+    <Compile Include="Suites\Usuario.cs" />
     <Compile Include="Suites\Veiculo.cs" />
   </ItemGroup>
   <ItemGroup>

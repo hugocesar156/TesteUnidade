@@ -55,19 +55,31 @@ namespace Rastreamento.Testes
         [Test]
         public void Detalhamento()
         {
-            login.SetUp();
-            login.Acesso();
+            try
+            {
+                login.SetUp();
+                login.Acesso();
 
-            driver = login.driver;
-            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            wait.Until(driver => driver.FindElement(By.LinkText("Cliente")).Displayed);
+                driver = login.driver;
+                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+                wait.Until(driver => driver.FindElement(By.LinkText("Cliente")).Displayed);
 
-            driver.FindElementByLinkText("Cliente").Click();
-            driver.FindElementByLinkText("Listar").Click();
+                driver.FindElementByLinkText("Cliente").Click();
+                driver.FindElementByLinkText("Listar").Click();
 
-            var pagina = new Lista(driver);
-            pagina.ExibirModal();
-            wait.Until(driver => driver.FindElement(By.Id("modal-detalhamento")).Displayed);
+                var pagina = new Lista(driver);
+                watch = Stopwatch.StartNew();
+                pagina.ExibirModal();
+                wait.Until(driver => driver.FindElement(By.Id("modal-detalhamento")).Displayed);
+                watch.Stop();
+
+                Console.WriteLine($"Carregamento do modal: {watch.ElapsedMilliseconds} ms");
+            }
+            catch (NoSuchElementException erro)
+            {
+                Console.WriteLine(erro);
+                throw erro;
+            }
         }
 
         [Test]
@@ -186,13 +198,18 @@ namespace Rastreamento.Testes
                 login.SetUp();
                 login.Acesso();
                 driver = login.driver;
-
+         
                 var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
                 wait.Until(driver => driver.FindElement(By.LinkText("Cliente")).Displayed);
 
                 driver.FindElementByLinkText("Cliente").Click();
+
+                watch = Stopwatch.StartNew();
                 driver.FindElementByLinkText("Listar").Click();
-                wait.Until(driver => driver.FindElement(By.CssSelector(".table-hover")));
+                wait.Until(driver => driver.FindElement(By.CssSelector(".dataTables_scrollBody")).Displayed);
+                watch.Stop();
+
+                Console.WriteLine($"Carregamento da lista: {watch.ElapsedMilliseconds} ms");
             }
             catch (NoSuchElementException erro)
             {

@@ -27,7 +27,7 @@ namespace Rastreamento.Testes
             driver.Quit();
         }
 
-        [Test]
+        [Parallelizable]
         public void ItensNavbar()
         {
             try
